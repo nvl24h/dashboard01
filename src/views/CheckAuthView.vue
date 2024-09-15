@@ -9,16 +9,16 @@
                         <p class="auth__description">How to i get started lorem ipsum dolor at?</p>
                     </div>
                     <div class="auth__form">
-                        <form action="">
+                        <form @submit.prevent="handleSubmit">
                             <div class="auth__form-item">
-                                <input class="auth__input" type="text" id="email" placeholder="Username" />
+                                <input class="auth__input" type="text" id="email" placeholder="Username" v-model="username" />
                                 <i class="fa-solid fa-user auth__icon"></i>
-                                <p class="auth__error" :if="formErrorUser"></p>
+                                <p class="auth__error" v-if="formErrorUser">{{ formErrorUser }}</p>
                             </div>
                             <div class="auth__form-item">
-                                <input class="auth__input" type="password" id="password" placeholder="Password" />
+                                <input class="auth__input" type="password" id="password" placeholder="Password" v-model="password" />
                                 <i class="fa-solid fa-unlock auth__icon"></i>
-                                <p class="auth__error" :if="formErrorPassword"></p>
+                                <p class="auth__error" v-if="formErrorPassword">{{ formErrorPassword }}</p>
                             </div>
                             <button class="auth__button" type="submit">Login Now</button>
                         </form>
@@ -50,24 +50,52 @@
 
 <script>
 import "@/assets/checkauthcss/style.css";
-
+import { useAuthStore } from "@/stores/checkAuth";
+import { ref } from "vue";
 export default {
     name: "CheckAuthView",
 
     setup() {
-        const formErrorUser = () => {
-            if (formErrorUser.value.length > 0) {
-                return "Enter your user, please!";
+        const username = ref("");
+        const password = ref("");
+        const formErrorUser = ref("");
+        const formErrorPassword = ref("");
+        const authStore = useAuthStore();
+
+        const validateForm = () => {
+            const valid = true;
+            formErrorUser.value = "";
+            formErrorPassword.value = "";
+
+            if (!username.value) {
+                formErrorUser.value = "Enter your user, please!";
+                valid = false;
+            }
+            if (!password.value) {
+                formErrorPassword.value = "Enter your password, please!";
+                valid = false;
+            }
+            return valid;
+        };
+
+        const handleSubmit = async () => {
+            if (validateForm()) {
+                try {
+                    await authStore.login(username.value, password.value);
+                    alert("Login successfully!");
+                } catch (error) {
+                    alert(error.message);
+                }
             }
         };
 
-        const formErrorPassword = () => {
-            if (formErrorPassword.value.length > 0) {
-                return "Enter your password, please!";
-            }
+        return {
+            username,
+            password,
+            formErrorUser,
+            formErrorPassword,
+            handleSubmit,
         };
-
-        return { formErrorUser, formErrorPassword };
     },
 };
 </script>
