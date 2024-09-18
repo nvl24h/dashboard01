@@ -29,6 +29,20 @@ export const useAuthStore = defineStore("auth", {
                 }
 
                 this.user = response.data;
+
+                // const handleSubmit = async () => {
+                //     if (validateForm()) {
+                //         try {
+                //             await authStore.login(username.value, password.value);
+                //             router.push({ name: "Dashboard" }); // Chuyển hướng đến trang dashboard
+                //         } catch (error) {
+                //             console.error(error);
+                //         }
+                //     }
+                // };
+
+                // handleSubmit();
+
                 return response.data;
             } catch (error) {
                 this.error = error.response ? error.response.data.message : "Network error";

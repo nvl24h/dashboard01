@@ -11,13 +11,13 @@ const routes = [
             {
                 path: "login",
                 name: "Login",
-                component: CheckAuthView,
+                component: () => import("@/components/Login.vue"),
                 meta: { layout: "CheckAuthLayout" },
             },
             {
                 path: "signup",
                 name: "Signup",
-                component: CheckAuthView,
+                component: () => import("@/components/Signup.vue"),
                 meta: { layout: "CheckAuthLayout" },
             },
         ],
