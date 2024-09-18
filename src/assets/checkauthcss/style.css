@@ -91,6 +91,12 @@
     margin: 0 auto;
 }
 
+.auth__button:hover,
+.auth__social-button:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
 .auth__social-login {
     padding-top: 24px;
     text-align: center;
