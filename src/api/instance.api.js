@@ -16,13 +16,15 @@ const axiosInstance = axios.create({
 // Interceptor để thêm token vào mỗi request nếu có
 axiosInstance.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem("accessToken"); // Lấy token từ localStorage
+        const token = localStorage.getItem("accessToken");
         const userId = localStorage.getItem("userId");
 
         if (token) {
-            config.headers.authorization = token;
+            config.headers["authorization"] = token; // Thêm token vào header
         }
-        console.log(config, "---------");
+        if (userId) {
+            config.headers["x-user-id"] = userId; // Thêm userId vào header
+        }
 
         return config;
     },
