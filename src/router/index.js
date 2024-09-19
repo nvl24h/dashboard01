@@ -6,6 +6,10 @@ import { useAuthStore } from "@/stores/checkAuth";
 
 const routes = [
     {
+        path: "/",
+        redirect: "/dashboard",
+    },
+    {
         path: "/login",
         name: "Login",
         component: LoginView,
