@@ -1,26 +1,21 @@
 import { createRouter, createWebHistory } from "vue-router";
-import CheckAuthView from "@/views/CheckAuthView.vue";
+import LoginView from "@/views/LoginView.vue";
+import SignupView from "@/views/SignupView.vue";
 import DashboardView from "@/views/DashboardView.vue";
+import { useAuthStore } from "@/stores/checkAuth";
 
 const routes = [
     {
-        path: "/",
-        component: CheckAuthView,
+        path: "/login",
+        name: "Login",
+        component: LoginView,
         meta: { layout: "CheckAuthLayout" }, // Định nghĩa layout cho route này
-        children: [
-            {
-                path: "login",
-                name: "Login",
-                component: () => import("@/components/Login.vue"),
-                meta: { layout: "CheckAuthLayout" },
-            },
-            {
-                path: "signup",
-                name: "Signup",
-                component: () => import("@/components/Signup.vue"),
-                meta: { layout: "CheckAuthLayout" },
-            },
-        ],
+    },
+    {
+        path: "/signup",
+        name: "Signup",
+        component: SignupView,
+        meta: { layout: "CheckAuthLayout" },
     },
     {
         path: "/dashboard",
@@ -43,11 +38,14 @@ const router = createRouter({
 
 // Route Guard để kiểm tra đăng nhập
 router.beforeEach((to, from, next) => {
-    const isAuthenticated = false; // Thay bằng logic kiểm tra đăng nhập của bạn
+    const authStore = useAuthStore(); // Lấy thông tin từ store
+    const isAuthenticated = authStore.isAuthenticated || localStorage.getItem("accessToken"); // Kiểm tra nếu đã lưu accessToken
+
     if (to.meta.requiresAuth && !isAuthenticated) {
-        next({ name: "Login" }); // Chuyển hướng về trang login nếu chưa đăng nhập
+        // Nếu route yêu cầu đăng nhập và người dùng chưa đăng nhập
+        next({ name: "Login" }); // Chuyển hướng về trang login
     } else {
-        next();
+        next(); // Cho phép đi tiếp
     }
 });
 
