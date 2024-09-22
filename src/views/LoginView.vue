@@ -31,7 +31,7 @@
                                     autocomplete="current-password"
                                     v-model="password"
                                 />
-                                <i class="fa-solid fa-unlock auth__icon"></i>
+                                <i class="fa-solid fa-lock auth__icon"></i>
                                 <p class="auth__error" v-if="formErrorPassword">{{ formErrorPassword }}</p>
                             </div>
                             <button class="auth__button" type="submit">Đăng Nhập Ngay</button>

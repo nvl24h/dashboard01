@@ -1,21 +1,19 @@
 <template>
     <div class="dashboard">
         <div class="dashboard__left">
-            <DashboardLeft></DashboardLeft>
+            <DashboardLeft />
         </div>
         <div class="dashboard__right">
-            <DashboardRight></DashboardRight>
+            <router-view />
         </div>
     </div>
 </template>
 
 <script>
 import DashboardLeft from "@/components/dashboard/DashboardLeft.vue";
-import DashboardRight from "@/components/dashboard/DashboardRight.vue";
 export default {
     components: {
         DashboardLeft,
-        DashboardRight,
     },
 };
 </script>
@@ -29,12 +27,13 @@ export default {
 .dashboard__left {
     width: 240px;
     background-color: aqua;
-    padding-left: 24px;
+    padding: 24px;
+    min-height: 100vh;
 }
 
 .dashboard__right {
     flex-grow: 1;
     background-color: bisque;
-    padding-left: 24px;
+    padding: 24px;
 }
 </style>

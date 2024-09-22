@@ -1,0 +1,64 @@
+.menu {
+    padding-top: 20px;
+}
+
+.menu__icon {
+    padding-right: 5px;
+}
+
+.menu__arrow {
+    float: right;
+    transition: transform 0.3s ease; /* Hiệu ứng xoay */
+}
+
+.menu__heading {
+    font-weight: 700;
+    padding: 10px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu__heading::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: rgb(226, 226, 226);
+    top: 50%;
+    transform: translateX(5px);
+}
+
+.menu__item {
+    padding: 10px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.menu__sub--list {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Hiển thị menu con khi li có menu__active */
+.menu__item.menu__active .menu__sub--list {
+    max-height: 200px; /* Giá trị lớn hơn đủ để chứa các mục con */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Xoay mũi tên khi menu mở */
+.menu__item.menu__active .menu__arrow {
+    transform: rotate(180deg);
+}
+
+.menu__sub--item {
+    padding: 5px 20px;
+}
+
+.menu__sub--item:hover {
+    background-color: rgb(194, 194, 194);
+    color: white;
+}

@@ -3,6 +3,10 @@ import LoginView from "@/views/LoginView.vue";
 import SignupView from "@/views/SignupView.vue";
 import DashboardView from "@/views/DashboardView.vue";
 import { useAuthStore } from "@/stores/checkAuth";
+import AllPost from "@/components/post/AllPost.vue";
+import AllProducts from "@/components/products/AllProducts.vue";
+import CreateProduct from "@/components/products/CreateProduct.vue";
+import CreatePost from "@/components/post/CreatePost.vue";
 
 const routes = [
     {
@@ -27,9 +31,41 @@ const routes = [
         meta: { layout: "DefaultLayout", requiresAuth: true }, // Route yêu cầu đăng nhập
         children: [
             {
-                path: "create-product",
-                name: "CreateProduct",
+                path: "overview",
+                name: "Overview",
                 component: DashboardView,
+            },
+            {
+                path: "posts",
+                name: "Posts",
+                children: [
+                    {
+                        path: "all-post",
+                        name: "AllPost",
+                        component: AllPost,
+                    },
+                    {
+                        path: "create-post",
+                        name: "CreatePost",
+                        component: CreatePost,
+                    },
+                ],
+            },
+            {
+                path: "products",
+                name: "Products",
+                children: [
+                    {
+                        path: "all-products",
+                        name: "AllProduct",
+                        component: AllProducts,
+                    },
+                    {
+                        path: "create-product",
+                        name: "CreateProduct",
+                        component: CreateProduct,
+                    },
+                ],
             },
         ],
     },
