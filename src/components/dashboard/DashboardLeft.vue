@@ -84,11 +84,12 @@ export default {
 
     setup() {
         // State
-        const router = useRouter(); // Thay vì useRoute
+        const router = useRouter();
         const activeMenu = ref(null);
 
         const toggleSubMenu = (menu) => {
-            activeMenu.value = activeMenu.value === menu ? null : menu;
+            // activeMenu.value = activeMenu.value === menu ? null : menu;
+            activeMenu.value = menu;
         };
 
         const navigateTo = (route) => {
