@@ -2,7 +2,7 @@
     <div class="dashboard__sidebar">
         <!-- Logo -->
         <div class="dashboard__logo">
-            <router-link to="/"><img src="../../assets/image/Logo.png" alt="good food" /></router-link>
+            <router-link to="/"><img src="../../assets/image/Betty-choice.png" width="200px" alt="good food" /></router-link>
         </div>
 
         <div class="menu">

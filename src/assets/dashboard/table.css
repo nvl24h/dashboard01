@@ -1,0 +1,59 @@
+/* Parent component: post */
+.post,
+.product {
+    width: 100%;
+    margin: 20px 0;
+}
+
+/* Table styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f9f9f9;
+}
+
+.table__header {
+    background-color: #333;
+    color: white;
+    text-align: left;
+    padding: 10px;
+}
+
+.table__row {
+    border-bottom: 1px solid #ddd;
+    align-items: center;
+}
+
+.table__data {
+    padding: 10px;
+    text-align: left;
+}
+
+.table__checkbox {
+    width: 20px;
+    height: 20px;
+}
+
+/* Image styling */
+.table__image {
+    height: 30px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Link styling */
+.table__link {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 400;
+}
+
+.table__link:hover {
+    text-decoration: underline;
+    text-decoration: none;
+}
+
+/* Row hover effect */
+.table__row:hover {
+    background-color: #f1f1f1;
+}

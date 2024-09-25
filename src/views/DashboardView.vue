@@ -26,14 +26,14 @@ export default {
 
 .dashboard__left {
     width: 240px;
-    background-color: aqua;
+    background-color: rgb(230, 230, 230);
     padding: 24px;
     min-height: 100vh;
 }
 
 .dashboard__right {
     flex-grow: 1;
-    background-color: bisque;
+    background-color: rgb(246, 246, 246);
     padding: 24px;
 }
 </style>
