@@ -30,6 +30,7 @@
                     <ul class="menu__sub--list" v-show="activeMenu === 'product'">
                         <li class="menu__sub--item" @click="navigateTo('products/all-products')">All products</li>
                         <li class="menu__sub--item" @click="navigateTo('products/create-product')">Create product</li>
+                        <li class="menu__sub--item" @click="navigateTo('products/create-product')">Collections</li>
                     </ul>
                 </li>
                 <li class="menu__item" :class="{ menu__active: activeMenu === 'pages' }" @click="toggleSubMenu('pages')">
