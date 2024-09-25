@@ -31,7 +31,10 @@
                         <img :src="product.product_thumb" class="table__image product__image" alt="Product image" />
                     </td>
                     <td class="table__data product__table-data">
-                        <router-link :to="'/product/' + product.id" class="table__link product__link table_title">
+                        <router-link
+                            :to="'/dashboard/products/edit-product/' + product._id"
+                            class="table__link product__link table_title"
+                        >
                             {{ product.product_name }}
                         </router-link>
                     </td>
@@ -59,7 +62,7 @@ import { useProductStore } from "@/stores/AllProducts";
 import { computed, onMounted } from "vue";
 
 export default {
-    name: "AllPost",
+    name: "AllProduct",
 
     setup() {
         const productStore = useProductStore();
@@ -69,7 +72,9 @@ export default {
 
         // Lấy danh sách sản phẩm từ API khi component được mounted
         const getDataProduct = async () => {
-            // await productStore.getAllProductAdmin();
+            // const aaaa = await productStore.getAllProductAdmin();
+            // console.log(aaaa);
+
             return await productStore.getAllProductAdmin();
         };
 

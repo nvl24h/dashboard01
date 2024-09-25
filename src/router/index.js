@@ -7,6 +7,7 @@ import AllPost from "@/components/post/AllPost.vue";
 import AllProducts from "@/components/products/AllProducts.vue";
 import CreateProduct from "@/components/products/CreateProduct.vue";
 import CreatePost from "@/components/post/CreatePost.vue";
+import EditProduct from "@/components/products/EditProduct.vue";
 
 const routes = [
     {
@@ -59,6 +60,11 @@ const routes = [
                         path: "all-products",
                         name: "AllProduct",
                         component: AllProducts,
+                    },
+                    {
+                        path: "edit-product/:id",
+                        name: "EditProduct",
+                        component: EditProduct,
                     },
                     {
                         path: "create-product",
