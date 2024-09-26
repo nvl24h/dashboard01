@@ -1,0 +1,266 @@
+/* Reset một số kiểu cơ bản để đảm bảo tính nhất quán trên các trình duyệt */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Khối chính */
+.product-editor {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 40px auto;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Phần bên trái và bên phải */
+.product-editor__left,
+.product-editor__right {
+    padding: 20px;
+}
+
+/* Bố trí hai cột */
+.product-editor__left {
+    flex: 2;
+    border-right: 1px solid #e0e0e0;
+}
+
+.product-editor__right {
+    flex: 1;
+    background-color: #fafafa;
+}
+
+/* Tiêu đề sản phẩm */
+.product-editor__title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* Các section tiêu đề */
+.product-editor__section {
+    margin-bottom: 15px;
+}
+
+.product-editor__section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #34495e;
+    display: block;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+}
+
+/* Form nhập liệu */
+.product-editor__form-group {
+    margin-bottom: 15px;
+}
+
+.product-editor__form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #555;
+}
+
+.product-editor__form-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.product-editor__form-input:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Mô tả sản phẩm */
+.product-editor__description {
+    margin-bottom: 20px;
+}
+
+.product-editor__description-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+}
+
+/* Hình ảnh sản phẩm */
+.product-editor__images {
+    margin-bottom: 20px;
+}
+
+.product-editor__image-list {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.product-editor__image-item {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-editor__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-editor__image-upload {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #777;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.product-editor__image-upload:hover {
+    background-color: #f0f8ff;
+    color: #3498db;
+}
+
+.product-editor__image-placeholder i {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+}
+
+.product-editor__image-desc-link {
+    font-size: 0.9rem;
+    color: #3498db;
+    cursor: pointer;
+    margin-bottom: 4px;
+}
+
+.product-editor__image-desc {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* Phần xuất bản */
+.product-editor__public,
+.product-editor__collection {
+    margin-bottom: 30px;
+}
+
+.product-editor__action {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.product-editor__button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background-color 0.3s ease;
+}
+
+.product-editor__button:hover {
+    background-color: #2980b9;
+}
+
+.product-editor__state p {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.product-editor__state strong {
+    color: #2c3e50;
+}
+
+/* Bộ sưu tập */
+.product-editor__collection-all {
+    max-height: 150px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.product-editor__collection-list {
+    margin-bottom: 10px;
+}
+
+.product-editor__collection-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.product-editor__collection-item input {
+    margin-right: 8px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .product-editor {
+        flex-direction: column;
+    }
+
+    .product-editor__left,
+    .product-editor__right {
+        padding: 15px;
+    }
+
+    .product-editor__left {
+        border-right: none;
+    }
+
+    .product-editor__image-list {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .product-editor__title {
+        font-size: 1.5rem;
+    }
+
+    .product-editor__section-title {
+        font-size: 1rem;
+    }
+
+    .product-editor__form-input {
+        font-size: 0.9rem;
+    }
+
+    .product-editor__button {
+        flex: 1;
+        font-size: 0.9rem;
+    }
+}
