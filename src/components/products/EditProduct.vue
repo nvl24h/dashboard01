@@ -1,7 +1,7 @@
 <template>
     <div class="product-editor">
         <div class="product-editor__left">
-            <h1 class="product-editor__title">{{ products.product_name }}</h1>
+            <h1 class="product-editor__title">{{ nameProduct }}</h1>
             <div class="product-editor__content">
                 <!-- Header -->
                 <div class="product-editor__section">
@@ -183,6 +183,7 @@ const getDataProduct = async () => {
         const getProduct = await productStore.getProductAdmin(productId);
         if (getProduct) {
             console.log("Fetched product:", getProduct.data.metadata);
+            nameProduct.value = getProduct.data.metadata.product_name;
             initialValue.value = getProduct.data.metadata.product_details || ""; // Gán giá trị từ API cho initialValue
         } else {
             console.error("Product not found");
