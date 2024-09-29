@@ -4,6 +4,7 @@ import { productApi } from "@/api/products/product.api";
 export const useProductStore = defineStore("product", {
     state: () => ({
         products: [],
+        product: {},
     }),
 
     actions: {
@@ -14,6 +15,20 @@ export const useProductStore = defineStore("product", {
                     // Cập nhật danh sách sản phẩm vào state
                     this.products = response.data.metadata; // Cập nhật tùy theo cấu trúc API
                     console.log(this.products);
+                } else {
+                    console.error("Error something");
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        async getProductAdmin(productId) {
+            try {
+                const response = await productApi.getProductAdmin(productId);
+                if (response.status === 200) {
+                    this.product = response.data.metadata;
+                    return response;
                 } else {
                     console.error("Error something");
                 }

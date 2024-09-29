@@ -16,8 +16,8 @@ body {
 .product-editor {
     display: flex;
     flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 40px auto;
+    max-width: 100%;
+    margin: 0 auto;
     background-color: #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -28,6 +28,11 @@ body {
 .product-editor__left,
 .product-editor__right {
     padding: 20px;
+}
+
+.slug__product {
+    font-size: 12px;
+    padding-bottom: 20px;
 }
 
 /* Bố trí hai cột */

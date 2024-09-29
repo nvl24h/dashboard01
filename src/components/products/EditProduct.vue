@@ -1,7 +1,7 @@
 <template>
     <div class="product-editor">
         <div class="product-editor__left">
-            <h1 class="product-editor__title">Rượu vang ngọt Reolo Rosso Medium Sweet a</h1>
+            <h1 class="product-editor__title">{{ products.product_name }}</h1>
             <div class="product-editor__content">
                 <!-- Header -->
                 <div class="product-editor__section">
@@ -19,9 +19,10 @@
                             id="nameProduct"
                             class="product-editor__form-input"
                             placeholder="Nhập tên sản phẩm"
-                            value="Rượu vang đỏ Úc Oz Stamp Cabernet Sauvignon Limited Edition"
+                            v-model="products.product_name"
                         />
                     </div>
+                    <span class="slug__product">http://localhost:5173/products/{{ slug }}</span>
                 </div>
 
                 <!-- Description -->
@@ -29,6 +30,7 @@
                     <label for="productDescription" class="product-editor__description-label">Mô tả sản phẩm</label>
                     <Editor
                         api-key="5isebp954tf7aiwbmjgvuredk0f3s93sl92ba26r583bs1pf"
+                        v-model="initialValue"
                         :init="{
                             toolbar_mode: 'sliding',
                             plugins:
@@ -115,6 +117,83 @@
 </template>
 
 <script setup>
+import { ref, computed, onMounted } from "vue";
 import Editor from "@tinymce/tinymce-vue";
 import "@/assets/product/style.css";
+import { useProductStore } from "@/stores/AllProducts";
+import { useRoute } from "vue-router";
+
+// Biến phản ứng cho tên sản phẩm
+const nameProduct = ref("");
+const initialValue = ref(""); // Sử dụng ref cho initialValue của Editor
+
+// Hàm chuyển đổi chuỗi thành slug
+function toSlug(str) {
+    return str
+        .toLowerCase()
+        .normalize() // Chuyển các ký tự có dấu thành dạng cơ bản
+        .replace(/[\u0300-\u036f]/g, "") // Loại bỏ dấu tiếng Việt
+        .replace(/[^a-z0-9\s-]/g, "") // Loại bỏ ký tự đặc biệt
+        .trim()
+        .replace(/[\s-]+/g, "-"); // Thay thế khoảng trắng và dấu gạch ngang liên tiếp bằng một dấu gạch ngang
+}
+
+// Computed property để tạo slug từ nameProduct
+const slug = computed(() => toSlug(nameProduct.value));
+
+// Hàm callback cho file picker (nếu cần thiết)
+function filePickerCallback(callback, value, meta) {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+
+    input.onchange = () => {
+        const file = input.files[0];
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            const id = "blobid" + new Date().getTime();
+            const blobCache = Editor.editorInstance.editorUpload.blobCache;
+            const base64 = reader.result.split(",")[1];
+            const blobInfo = blobCache.create(id, file, base64);
+            blobCache.add(blobInfo);
+
+            callback(blobInfo.blobUri(), { title: file.name });
+        };
+
+        reader.readAsDataURL(file);
+    };
+
+    input.click();
+}
+
+const productStore = useProductStore();
+
+// Lấy route hiện tại
+const route = useRoute();
+const productId = route.params.id;
+
+// Template ref để truy cập đến phần tử <p> nếu cần thiết
+const products = computed(() => productStore.product);
+console.log(products, "------------");
+
+// Hàm để lấy dữ liệu sản phẩm theo id
+const getDataProduct = async () => {
+    try {
+        const getProduct = await productStore.getProductAdmin(productId);
+        if (getProduct) {
+            console.log("Fetched product:", getProduct.data.metadata);
+            initialValue.value = getProduct.data.metadata.product_details || ""; // Gán giá trị từ API cho initialValue
+        } else {
+            console.error("Product not found");
+        }
+    } catch (error) {
+        console.error("Error fetching product:", error);
+    }
+};
+
+// Gọi hàm khi component được mount
+onMounted(() => {
+    getDataProduct();
+});
 </script>
