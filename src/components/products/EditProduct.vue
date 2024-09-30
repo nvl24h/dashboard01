@@ -32,6 +32,7 @@
                     <Editor
                         api-key="5isebp954tf7aiwbmjgvuredk0f3s93sl92ba26r583bs1pf"
                         v-model="initialValue"
+                        @change="onDescriptionProductInput"
                         :init="{
                             toolbar_mode: 'sliding',
                             plugins:
@@ -136,12 +137,16 @@ const productType = ref("");
 const productDescription = ref("");
 const productCollection = ref("");
 
-const aaaa = "";
-
 const onNameProductInput = () => {
     // Nếu bạn muốn thực hiện thêm hành động khi tên sản phẩm thay đổi, thực hiện ở đây
     console.log("Tên sản phẩm đã thay đổi:", nameProduct.value);
     nameProduct.value = nameProduct.value;
+};
+
+const onDescriptionProductInput = () => {
+    // Nếu bạn muốn thực hiện thêm hành động khi tên sản phẩm thay đổi, thực hiện ở đây
+    console.log("Tên sản phẩm đã thay đổi:", initialValue.value);
+    initialValue.value = initialValue.value;
 };
 
 // Hàm callback cho file picker (nếu cần thiết)
@@ -205,8 +210,9 @@ const getDataProduct = async () => {
 const updateProduct = async () => {
     try {
         const getProduct = await productStore.updateProductAdmin(productId, {
-            product_name: nameProduct.value,
             product_type: "Electronic",
+            product_name: nameProduct.value,
+            product_details: initialValue.value,
         });
         if (getProduct) {
             console.log("Fetched product:", getProduct.data.metadata);
