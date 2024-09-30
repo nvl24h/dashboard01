@@ -1,7 +1,7 @@
 <template>
     <div class="product-editor">
         <div class="product-editor__left">
-            <h1 class="product-editor__title">{{ nameProduct }}</h1>
+            <h1 class="product-editor__title">{{ nameProduct2 }}</h1>
             <div class="product-editor__content">
                 <!-- Header -->
                 <div class="product-editor__section">
@@ -19,10 +19,11 @@
                             id="nameProduct"
                             class="product-editor__form-input"
                             placeholder="Nhập tên sản phẩm"
-                            v-model="products.product_name"
+                            v-model="nameProduct"
+                            @change="onNameProductInput"
                         />
                     </div>
-                    <span class="slug__product">http://localhost:5173/products/{{ slug }}</span>
+                    <span class="slug__product">http://localhost:5173/products/{{ productSlug }}</span>
                 </div>
 
                 <!-- Description -->
@@ -53,12 +54,8 @@
 
                     <!-- Image List -->
                     <ul class="product-editor__image-list">
-                        <li class="product-editor__image-item">
-                            <img
-                                src="https://product.hstatic.net/200000511439/product/toorak_estate_9b9460a31ef84643ac6a63e35b944e27_large.jpg"
-                                alt="Hình ảnh sản phẩm"
-                                class="product-editor__image"
-                            />
+                        <li class="product-editor__image-item" v-for="(image, index) in productThumb" :key="index">
+                            <img :src="image" alt="Hình ảnh sản phẩm" class="product-editor__image" />
                         </li>
                         <li class="product-editor__image-item">
                             <div class="product-editor__image-upload">
@@ -94,9 +91,11 @@
                 </div>
                 <div class="product-editor__state">
                     <p>Trạng thái: <strong>Bản nháp</strong></p>
-                    <p>Xuất bản ngày: <strong>12 / 09 / 2022</strong></p>
+                    <p>
+                        Xuất bản ngày: <strong>{{ productDate }}</strong>
+                    </p>
                 </div>
-                <button class="product-editor__button">Xuất bản</button>
+                <button class="product-editor__button" v-on:click="updateProduct()">Xuất bản</button>
             </div>
 
             <div class="product-editor__collection">
@@ -126,20 +125,24 @@ import { useRoute } from "vue-router";
 // Biến phản ứng cho tên sản phẩm
 const nameProduct = ref("");
 const initialValue = ref(""); // Sử dụng ref cho initialValue của Editor
+const productSlug = ref("");
+const productState = ref("");
+const productDate = ref("");
+const nameProduct2 = ref("");
+const productPrice = ref("");
+const productQuantity = ref("");
+const productThumb = ref([]);
+const productType = ref("");
+const productDescription = ref("");
+const productCollection = ref("");
 
-// Hàm chuyển đổi chuỗi thành slug
-function toSlug(str) {
-    return str
-        .toLowerCase()
-        .normalize() // Chuyển các ký tự có dấu thành dạng cơ bản
-        .replace(/[\u0300-\u036f]/g, "") // Loại bỏ dấu tiếng Việt
-        .replace(/[^a-z0-9\s-]/g, "") // Loại bỏ ký tự đặc biệt
-        .trim()
-        .replace(/[\s-]+/g, "-"); // Thay thế khoảng trắng và dấu gạch ngang liên tiếp bằng một dấu gạch ngang
-}
+const aaaa = "";
 
-// Computed property để tạo slug từ nameProduct
-const slug = computed(() => toSlug(nameProduct.value));
+const onNameProductInput = () => {
+    // Nếu bạn muốn thực hiện thêm hành động khi tên sản phẩm thay đổi, thực hiện ở đây
+    console.log("Tên sản phẩm đã thay đổi:", nameProduct.value);
+    nameProduct.value = nameProduct.value;
+};
 
 // Hàm callback cho file picker (nếu cần thiết)
 function filePickerCallback(callback, value, meta) {
@@ -173,18 +176,24 @@ const productStore = useProductStore();
 const route = useRoute();
 const productId = route.params.id;
 
-// Template ref để truy cập đến phần tử <p> nếu cần thiết
-const products = computed(() => productStore.product);
-console.log(products, "------------");
-
 // Hàm để lấy dữ liệu sản phẩm theo id
 const getDataProduct = async () => {
     try {
         const getProduct = await productStore.getProductAdmin(productId);
         if (getProduct) {
             console.log("Fetched product:", getProduct.data.metadata);
-            nameProduct.value = getProduct.data.metadata.product_name;
-            initialValue.value = getProduct.data.metadata.product_details || ""; // Gán giá trị từ API cho initialValue
+            productState.value = getProduct.data.metadata.product_slug || "";
+            productDate.value = getProduct.data.metadata.createdAt || "";
+            productSlug.value = getProduct.data.metadata.product_slug || "";
+            nameProduct.value = getProduct.data.metadata.product_name || "";
+            nameProduct2.value = getProduct.data.metadata.product_name || "";
+            initialValue.value = getProduct.data.metadata.product_details || "";
+            productPrice.value = getProduct.data.metadata.product_price || "";
+            productQuantity.value = getProduct.data.metadata.product_quantity || "";
+            productThumb.value.push(getProduct.data.metadata.product_thumb);
+            productType.value = getProduct.data.metadata.product_type || "";
+            productDescription.value = getProduct.data.metadata.product_description || "";
+            productCollection.value = getProduct.data.metadata.product_collection || "";
         } else {
             console.error("Product not found");
         }
@@ -193,6 +202,33 @@ const getDataProduct = async () => {
     }
 };
 
+const updateProduct = async () => {
+    try {
+        const getProduct = await productStore.updateProductAdmin(productId, {
+            product_name: nameProduct.value,
+            product_type: "Electronic",
+        });
+        if (getProduct) {
+            console.log("Fetched product:", getProduct.data.metadata);
+            productState.value = getProduct.data.metadata.product_slug || "";
+            productDate.value = getProduct.data.metadata.createdAt || "";
+            productSlug.value = getProduct.data.metadata.product_slug || "";
+            nameProduct.value = getProduct.data.metadata.product_name || "";
+            nameProduct2.value = getProduct.data.metadata.product_name || "";
+            initialValue.value = getProduct.data.metadata.product_details || "";
+            productPrice.value = getProduct.data.metadata.product_price || "";
+            productQuantity.value = getProduct.data.metadata.product_quantity || "";
+            productThumb.value.push(getProduct.data.metadata.product_thumb);
+            productType.value = getProduct.data.metadata.product_type || "";
+            productDescription.value = getProduct.data.metadata.product_description || "";
+            productCollection.value = getProduct.data.metadata.product_collection || "";
+        } else {
+            console.error("Product not found");
+        }
+    } catch (error) {
+        console.error("Error fetching product:", error);
+    }
+};
 // Gọi hàm khi component được mount
 onMounted(() => {
     getDataProduct();

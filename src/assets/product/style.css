@@ -37,7 +37,7 @@ body {
 
 /* Bố trí hai cột */
 .product-editor__left {
-    flex: 2;
+    flex: 3;
     border-right: 1px solid #e0e0e0;
 }
 

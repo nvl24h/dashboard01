@@ -36,5 +36,19 @@ export const useProductStore = defineStore("product", {
                 console.error(error);
             }
         },
+
+        async updateProductAdmin(productId, payload) {
+            try {
+                const response = await productApi.updateProductAdmin(productId, payload);
+                if (response.status === 200) {
+                    this.product = response.data.metadata;
+                    return response;
+                } else {
+                    console.error("Error something");
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        },
     },
 });
