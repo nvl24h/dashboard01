@@ -117,15 +117,15 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import Editor from "@tinymce/tinymce-vue";
 import "@/assets/product/style.css";
 import { useProductStore } from "@/stores/AllProducts";
 import { useRoute } from "vue-router";
 
-// Biến phản ứng cho tên sản phẩm
+// Khai báo các biến phản ứng
 const nameProduct = ref("");
-const initialValue = ref(""); // Sử dụng ref cho initialValue của Editor
+const initialValue = ref("");
 const productSlug = ref("");
 const productState = ref("");
 const productDate = ref("");
@@ -137,68 +137,33 @@ const productType = ref("");
 const productDescription = ref("");
 const productCollection = ref("");
 
-const onNameProductInput = () => {
-    // Nếu bạn muốn thực hiện thêm hành động khi tên sản phẩm thay đổi, thực hiện ở đây
-    console.log("Tên sản phẩm đã thay đổi:", nameProduct.value);
-    nameProduct.value = nameProduct.value;
-};
-
-const onDescriptionProductInput = () => {
-    // Nếu bạn muốn thực hiện thêm hành động khi tên sản phẩm thay đổi, thực hiện ở đây
-    console.log("Tên sản phẩm đã thay đổi:", initialValue.value);
-    initialValue.value = initialValue.value;
-};
-
-// Hàm callback cho file picker (nếu cần thiết)
-function filePickerCallback(callback, value, meta) {
-    const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
-
-    input.onchange = () => {
-        const file = input.files[0];
-        const reader = new FileReader();
-
-        reader.onload = () => {
-            const id = "blobid" + new Date().getTime();
-            const blobCache = Editor.editorInstance.editorUpload.blobCache;
-            const base64 = reader.result.split(",")[1];
-            const blobInfo = blobCache.create(id, file, base64);
-            blobCache.add(blobInfo);
-
-            callback(blobInfo.blobUri(), { title: file.name });
-        };
-
-        reader.readAsDataURL(file);
-    };
-
-    input.click();
-}
-
+// Khai báo product store và route
 const productStore = useProductStore();
-
-// Lấy route hiện tại
 const route = useRoute();
 const productId = route.params.id;
 
-// Hàm để lấy dữ liệu sản phẩm theo id
+// Hàm cập nhật giá trị các biến phản ứng
+const setProductData = (metadata) => {
+    productState.value = metadata.product_slug || "";
+    productDate.value = metadata.createdAt || "";
+    productSlug.value = metadata.product_slug || "";
+    nameProduct.value = metadata.product_name || "";
+    nameProduct2.value = metadata.product_name || "";
+    initialValue.value = metadata.product_details || "";
+    productPrice.value = metadata.product_price || "";
+    productQuantity.value = metadata.product_quantity || "";
+    productThumb.value = [metadata.product_thumb] || [];
+    productType.value = metadata.product_type || "";
+    productDescription.value = metadata.product_description || "";
+    productCollection.value = metadata.product_collection || "";
+};
+
+// Hàm lấy dữ liệu sản phẩm
 const getDataProduct = async () => {
     try {
         const getProduct = await productStore.getProductAdmin(productId);
-        if (getProduct) {
-            console.log("Fetched product:", getProduct.data.metadata);
-            productState.value = getProduct.data.metadata.product_slug || "";
-            productDate.value = getProduct.data.metadata.createdAt || "";
-            productSlug.value = getProduct.data.metadata.product_slug || "";
-            nameProduct.value = getProduct.data.metadata.product_name || "";
-            nameProduct2.value = getProduct.data.metadata.product_name || "";
-            initialValue.value = getProduct.data.metadata.product_details || "";
-            productPrice.value = getProduct.data.metadata.product_price || "";
-            productQuantity.value = getProduct.data.metadata.product_quantity || "";
-            productThumb.value.push(getProduct.data.metadata.product_thumb);
-            productType.value = getProduct.data.metadata.product_type || "";
-            productDescription.value = getProduct.data.metadata.product_description || "";
-            productCollection.value = getProduct.data.metadata.product_collection || "";
+        if (getProduct && getProduct.data) {
+            setProductData(getProduct.data.metadata);
         } else {
             console.error("Product not found");
         }
@@ -207,34 +172,24 @@ const getDataProduct = async () => {
     }
 };
 
+// Hàm cập nhật sản phẩm
 const updateProduct = async () => {
     try {
-        const getProduct = await productStore.updateProductAdmin(productId, {
+        const updatedProduct = await productStore.updateProductAdmin(productId, {
             product_type: "Electronic",
             product_name: nameProduct.value,
             product_details: initialValue.value,
         });
-        if (getProduct) {
-            console.log("Fetched product:", getProduct.data.metadata);
-            productState.value = getProduct.data.metadata.product_slug || "";
-            productDate.value = getProduct.data.metadata.createdAt || "";
-            productSlug.value = getProduct.data.metadata.product_slug || "";
-            nameProduct.value = getProduct.data.metadata.product_name || "";
-            nameProduct2.value = getProduct.data.metadata.product_name || "";
-            initialValue.value = getProduct.data.metadata.product_details || "";
-            productPrice.value = getProduct.data.metadata.product_price || "";
-            productQuantity.value = getProduct.data.metadata.product_quantity || "";
-            productThumb.value.push(getProduct.data.metadata.product_thumb);
-            productType.value = getProduct.data.metadata.product_type || "";
-            productDescription.value = getProduct.data.metadata.product_description || "";
-            productCollection.value = getProduct.data.metadata.product_collection || "";
+        if (updatedProduct && updatedProduct.data) {
+            setProductData(updatedProduct.data.metadata);
         } else {
             console.error("Product not found");
         }
     } catch (error) {
-        console.error("Error fetching product:", error);
+        console.error("Error updating product:", error);
     }
 };
+
 // Gọi hàm khi component được mount
 onMounted(() => {
     getDataProduct();
