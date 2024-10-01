@@ -122,6 +122,7 @@ import Editor from "@tinymce/tinymce-vue";
 import "@/assets/product/style.css";
 import { useProductStore } from "@/stores/AllProducts";
 import { useRoute } from "vue-router";
+import { filePickerCallback } from "@/utils";
 
 // Khai báo các biến phản ứng
 const nameProduct = ref("");
