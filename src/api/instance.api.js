@@ -8,7 +8,6 @@ const axiosInstance = axios.create({
     timeout: 10000, // Thời gian timeout cho mỗi request
     headers: {
         "Content-Type": "application/json",
-        // "Content-Type": "multipart/form-data",
         "x-api-key":
             "e8055c44bc0693e18f3e5cf32b6dc393c6e7f4d86fd92e88a930a3e8f9b7028b3d880481b22e6695da262192f05b93af73e40608fdedddc03c49cb98116c4318",
     },

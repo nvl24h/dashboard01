@@ -1,13 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import LoginView from "@/views/LoginView.vue";
-import SignupView from "@/views/SignupView.vue";
-import DashboardView from "@/views/DashboardView.vue";
 import { useAuthStore } from "@/stores/checkAuth";
-import AllPost from "@/components/post/AllPost.vue";
-import AllProducts from "@/components/products/AllProducts.vue";
-import CreateProduct from "@/components/products/CreateProduct.vue";
-import CreatePost from "@/components/post/CreatePost.vue";
-import EditProduct from "@/components/products/EditProduct.vue";
 
 const routes = [
     {
@@ -17,24 +9,24 @@ const routes = [
     {
         path: "/login",
         name: "Login",
-        component: LoginView,
+        component: () => import("@/views/LoginView.vue"),
         meta: { layout: "CheckAuthLayout" }, // Định nghĩa layout cho route này
     },
     {
         path: "/signup",
         name: "Signup",
-        component: SignupView,
+        component: () => import("@/views/SignupView.vue"),
         meta: { layout: "CheckAuthLayout" },
     },
     {
         path: "/dashboard",
-        component: DashboardView,
+        component: () => import("@/views/DashboardView.vue"),
         meta: { layout: "DefaultLayout", requiresAuth: true }, // Route yêu cầu đăng nhập
         children: [
             {
                 path: "overview",
                 name: "Overview",
-                component: DashboardView,
+                component: () => import("@/views/DashboardView.vue"),
             },
             {
                 path: "posts",
@@ -43,12 +35,12 @@ const routes = [
                     {
                         path: "all-post",
                         name: "AllPost",
-                        component: AllPost,
+                        component: () => import("@/components/post/AllPost.vue"),
                     },
                     {
                         path: "create-post",
                         name: "CreatePost",
-                        component: CreatePost,
+                        component: () => import("@/components/post/CreatePost.vue"),
                     },
                 ],
             },
@@ -59,21 +51,26 @@ const routes = [
                     {
                         path: "all-products",
                         name: "AllProduct",
-                        component: AllProducts,
+                        component: () => import("@/components/products/AllProducts.vue"),
                     },
                     {
                         path: "edit-product/:id",
                         name: "EditProduct",
-                        component: EditProduct,
+                        component: () => import("@/components/products/EditProduct.vue"),
                     },
                     {
                         path: "create-product",
                         name: "CreateProduct",
-                        component: CreateProduct,
+                        component: () => import("@/components/products/CreateProduct.vue"),
                     },
                 ],
             },
         ],
+    },
+    {
+        path: "/:pathMatch(.*)*",
+        name: "NotFound",
+        component: () => import("@/views/NotFound404.vue"),
     },
 ];
 

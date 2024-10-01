@@ -4,9 +4,7 @@ import { defineStore } from "pinia";
 import { uploadApi } from "@/api/uploads/upload.api";
 
 export const useUploadStore = defineStore("upload", {
-    state: () => ({
-        fileUpload: [],
-    }),
+    state: () => ({}),
 
     actions: {
         async uploadImageThumb(formData) {
@@ -14,10 +12,8 @@ export const useUploadStore = defineStore("upload", {
             try {
                 const response = await uploadApi.uploadThumb(formData);
                 if (response.status === 200) {
-                    // Cập nhật danh sách sản phẩm vào state
-                    this.fileUpload = response.data.metadata; // Cập nhật tùy theo cấu trúc API
-                    console.log(this.fileUpload);
-                    return response; // Trả về phản hồi để sử dụng tiếp
+                    // Trả về phản hồi để sử dụng tiếp
+                    return response;
                 } else {
                     console.error("Error uploading image:", response.statusText);
                     return null;

@@ -32,7 +32,6 @@
                     <Editor
                         api-key="5isebp954tf7aiwbmjgvuredk0f3s93sl92ba26r583bs1pf"
                         v-model="initialValue"
-                        @change="onDescriptionProductInput"
                         :init="{
                             toolbar_mode: 'sliding',
                             plugins:

@@ -19,12 +19,10 @@ export const filePickerCallback = (callback, value, meta) => {
                 // Gửi API để upload file sử dụng store
                 const uploadStore = useUploadStore();
                 const response = await uploadStore.uploadImageThumb(formData); // Truyền trực tiếp formData
-                console.log("Response:: ", response);
 
-                if (response && response.data && response.data.url) {
-                    // Giả sử API trả về { data: { url: '...' } }
-                    const imageUrl = response.data.url;
-                    // Sử dụng callback của TinyMCE để hiển thị ảnh trong editor
+                if (response && response.data && response.data.metadata.image_url) {
+                    const imageUrl = response.data.metadata.image_url;
+
                     callback(imageUrl, { title: file.name });
                 } else {
                     console.error("Error uploading image: No URL returned");
